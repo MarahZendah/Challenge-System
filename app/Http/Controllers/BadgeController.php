@@ -11,7 +11,8 @@ class BadgeController extends Controller
      */
     public function index()
     {
-        //
+        $badges = auth()->user()->badges; // جلب أوسمة المستخدم الحالي فقط
+    return view('badges.index', compact('badges'));
     }
 
     /**

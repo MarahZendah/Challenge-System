@@ -42,8 +42,7 @@ protected $fillable = [
 }
 
 public function badges() {
-    return $this->belongsToMany(Badge::class)
-                ->withPivot('awarded_at');
+    return $this->belongsToMany(Badge::class);
 }
 
 public function progressLogs() {

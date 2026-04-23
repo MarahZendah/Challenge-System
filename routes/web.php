@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ChallengeController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\BadgeController;
 // 1. الصفحة الرئيسية تحول فوراً لصفحة الدخول
 Route::get('/', function () {
     return redirect('/login');
@@ -43,3 +44,4 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
 
 Route::delete('/challenges/{id}', [AdminController::class, 'destroy'])->name('admin.challenges.destroy');
 Route::delete('/challenges/{id}/leave', [ChallengeController::class, 'leave'])->name('challenges.leave')->middleware('auth');
+Route::get('/my-badges', [BadgeController::class, 'index'])->middleware('auth')->name('badges.index');

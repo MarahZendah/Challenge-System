@@ -9,9 +9,8 @@ class Badge extends Model
 {
     /** @use HasFactory<\Database\Factories\BadgeFactory> */
     use HasFactory;
-    protected $fillable = ['name', 'description', 'image'];
+    protected $fillable = ['name', 'description', 'image_path'];
     public function users() {
-    return $this->belongsToMany(User::class)
-                ->withPivot('awarded_at');
+    return $this->belongsToMany(User::class);
 }
 }

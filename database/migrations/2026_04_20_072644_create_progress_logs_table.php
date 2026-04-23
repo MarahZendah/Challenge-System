@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('progress_logs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('challenge_id')->constrained()->onDelete('cascade');
-            $table->date('log_date'); 
-            $table->boolean('is_completed')->default(false);
-            $table->timestamps();
+        $table->foreignId('user_id')->constrained()->onDelete('cascade');
+        $table->foreignId('challenge_id')->constrained()->onDelete('cascade');
+        $table->date('log_date'); // التاريخ
+        $table->boolean('is_completed')->default(false); // هل أنجز المهمة؟
+        $table->timestamps();
         });
     }
 

@@ -12,11 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('badges', function (Blueprint $table) {
-            $table->id();
-            $table->string('name') ;
-            $table->text('description');
-             $table->string('image')->nullable();;
-            $table->timestamps();
+           $table->id();
+        $table->string('name'); // اسم الوسام (مثل: بطل الأسبوع)
+        $table->string('description')->nullable(); // وصف الوسام
+        $table->string('image_path')->nullable(); // مسار صورة الوسام
+        $table->timestamps();
         });
     }
 

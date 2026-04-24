@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('challenge_user', function (Blueprint $table) {
-            // إضافة العمود ونوعه رقم (integer) وقيمته الافتراضية 0
+           
         $table->integer('completed_days')->default(0)->after('start_date');
         });
     }

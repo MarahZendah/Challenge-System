@@ -9,7 +9,7 @@ class Badge extends Model
 {
     /** @use HasFactory<\Database\Factories\BadgeFactory> */
     use HasFactory;
-    protected $fillable = ['name', 'description', 'image_path'];
+    protected $fillable = ['name', 'description', 'image_path', 'criteria_type', 'criteria_value' ];
     public function users() {
     return $this->belongsToMany(User::class);
 }

@@ -37,7 +37,7 @@ protected $fillable = [
     }
 
  public function challenges() {
-    // أضفنا withPivot عشان لارافيل "يشوف" الأعمدة الإضافية في جدول الربط
+    
     return $this->belongsToMany(Challenge::class)->withPivot('start_date', 'completed_days', 'status');
 }
 

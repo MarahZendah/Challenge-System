@@ -10,13 +10,13 @@
 
     <div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md mx-4">
         
-        {{-- قسم العنوان --}}
+       
         <div class="text-center mb-8">
             <h2 class="text-3xl font-bold text-gray-800">دخول المتحدين 🛡️</h2>
             <p class="text-gray-500 mt-2 text-sm">أهلاً بك مجدداً، استكمل تحدياتك الآن</p>
         </div>
 
-        {{-- رسالة نجاح إنشاء الحساب --}}
+        
         @if(session('success'))
             <div id="registration-success" class="bg-green-50 border-r-4 border-green-500 text-green-700 px-4 py-3 rounded-lg relative mb-6 shadow-sm transition-all duration-500">
                 <div class="flex items-center">
@@ -36,7 +36,7 @@
             </script>
         @endif
 
-        {{-- فورم تسجيل الدخول --}}
+        
         <form action="{{ route('login') }}" method="POST" autocomplete="off">
             @csrf
             <div class="mb-5">

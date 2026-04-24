@@ -69,10 +69,10 @@ class ChallengeController extends Controller
     $user = auth()->user();
 
     if (!$user->challenges->contains($challenge->id)) {
-        // نرسل رقم التحدي، ومعاه مصفوفة [اسم العمود => القيمة]
+        
         $user->challenges()->attach($challenge->id, [
-            'start_date' => now(), // دالة now() بتجيب تاريخ وساعة اللحظة الحالية
-            'status' => 'active'   // بالمرة خلينا نخلي الحالة "نشط"
+            'start_date' => now(), 
+            'status' => 'active'   
         ]);
         
         return back()->with('success', 'تم الاشتراك بنجاح! ابدأ رحلتك الآن.');
@@ -89,42 +89,43 @@ public function myChallenges()
     return view('challenges.my_challenges', compact('myChallenges'));
 }
 
-public function completeDay($id)
+public function complete($id)
 {
     $user = auth()->user();
-    $challenge = $user->challenges()->findOrFail($id);
+    
+    
+   $user->challenges()->updateExistingPivot($id, ['status' => 'completed']);
 
-    $currentDays = $challenge->pivot->completed_days ?? 0;
-    $totalDays = $challenge->total_days;
+    
+    $completedCount = $user->challenges()->wherePivot('status', 'completed')->count(); // عدد التحديات
+    $totalDays = $user->challenges()->wherePivot('status', 'completed')->sum('total_days'); // مجموع الأيام
 
-    // الشرط: إذا كان المستخدم لسه ما وصل للحد الأقصى
-    if ($currentDays < $totalDays) {
-        $newCount = $currentDays + 1;
+    
+    $availableBadges = \App\Models\Badge::whereNotIn('id', $user->badges->pluck('id'))->get();
+
+    foreach ($availableBadges as $badge) {
+        $awarded = false;
+
         
-        $user->challenges()->updateExistingPivot($id, [
-            'completed_days' => $newCount
-        ]);
-
-        // إذا كان هاد آخر يوم، نرسل رسالة تهنئة خاصة
-        if ($newCount == $totalDays) {
-            return back()->with('success', '🏆 مبروك! لقد أتممت التحدي بنجاح، أنت بطل!');
+        if ($badge->criteria_type == 'count' && $completedCount >= $badge->criteria_value) {
+            $awarded = true;
+        } 
+        elseif ($badge->criteria_type == 'days' && $totalDays >= $badge->criteria_value) {
+            $awarded = true;
         }
 
-        return back()->with('success', 'كفو! استمر، تم تسجيل إنجاز اليوم.');
+        
+        if ($awarded) {
+            $user->badges()->attach($badge->id);
+        }
     }
 
-    // إذا حاول يزيد وهو مخلص أصلاً
-    return back()->with('info', 'أنت ختمت هذا التحدي بالفعل! 🌟');
+    return back()->with('success', 'أحسنتِ! تم إكمال التحدي وفحص الأوسمة المستحقة 🏆');
 }
 
 public function leave($id)
 {
-    $user = auth()->user();
-    
-    // استخدام دالة detach لحذف السجل من جدول الربط (challenge_user)
-    $user->challenges()->detach($id);
-
+    auth()->user()->challenges()->detach($id);
     return back()->with('success', 'تم إلغاء الاشتراك في التحدي بنجاح.');
 }
-
 }

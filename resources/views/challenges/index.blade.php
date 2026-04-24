@@ -37,7 +37,7 @@
                         <h3 class="text-xl font-bold text-gray-800 mb-2">{{ $challenge->title }}</h3>
                         <p class="text-gray-600 text-sm mb-4">{{ $challenge->description }}</p>
                         
-                        {{-- * التعديل هنا: عرض مدة التحدي ديناميكياً * --}}
+                       
                         <div class="flex items-center text-indigo-600 font-bold text-sm mb-4 bg-indigo-50 p-2 rounded-lg inline-block">
                             <span>📅 مدة التحدي: {{ $challenge->total_days }} يوم</span>
                         </div>
@@ -45,12 +45,12 @@
 
                     <div class="mt-4">
                         @if(auth()->user()->challenges->contains($challenge->id))
-                            {{-- عرض حالة الاشتراك الحالي --}}
+                            
                             <button disabled type="button" class="w-full bg-gray-300 text-gray-600 font-bold py-2 rounded-lg cursor-not-allowed mb-2">
                                 أنت مشترك بالفعل
                             </button>
                             
-                            {{-- فورم إلغاء الاشتراك --}}
+                            
                             <form action="{{ route('challenges.leave', $challenge->id) }}" method="POST" class="mt-2" onsubmit="return confirm('هل تريد فعلاً إلغاء الاشتراك؟')">
                                 @csrf
                                 @method('DELETE')
@@ -59,7 +59,7 @@
                                 </button>
                             </form>
                         @else
-                            {{-- فورم الاشتراك الأصلي --}}
+                            
                             <form action="{{ route('challenges.join', $challenge->id) }}" method="POST">
                                 @csrf
                                 <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 rounded-lg transition shadow-md">

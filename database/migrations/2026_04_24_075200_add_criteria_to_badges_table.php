@@ -11,12 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('badges', function (Blueprint $table) {
-           $table->id();
-        $table->string('name'); 
-        $table->string('description')->nullable(); 
-        $table->string('image_path')->nullable(); 
-        $table->timestamps();
+        Schema::table('badges', function (Blueprint $table) {
+            $table->string('criteria_type')->default('count'); 
+        $table->integer('criteria_value')->default(1);   
         });
     }
 
@@ -25,6 +22,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('badges');
+        Schema::table('badges', function (Blueprint $table) {
+            //
+        });
     }
 };

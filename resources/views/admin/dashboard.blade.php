@@ -1,6 +1,5 @@
-@extends('layouts.app') {{-- هنا نخبر لارافيل أن يستخدم التصميم الأساسي --}}
-
-@section('content') {{-- هنا نضع المحتوى الذي سيظهر مكان @yield --}}
+@extends('layouts.app') 
+@section('content') 
 <div class="container mx-auto px-4 py-8">
     <div class="flex justify-between items-center mb-8">
         @if(session('success'))
@@ -10,7 +9,6 @@
     </div>
 
     <script>
-        // كود ليختفي التنبيه تلقائياً بعد 3 ثوانٍ
         setTimeout(function() {
             let alert = document.getElementById('success-alert');
             if (alert) {
@@ -27,9 +25,21 @@
     </div>
 @endif
         <h1 class="text-3xl font-bold text-gray-800">لوحة التحكم 🛠️</h1>
-        <a href="{{ route('admin.challenges.create') }}" class="bg-indigo-600 text-white px-6 py-2 rounded-lg shadow-md hover:bg-indigo-700 transition">
-            إضافة تحدي جديد +
-        </a>
+       <div class="flex flex-col space-y-4 w-full max-w-xs mb-8">
+    
+    <a href="{{ route('admin.challenges.create') }}" 
+       class="flex items-center justify-center px-6 py-3 bg-indigo-600 border border-transparent rounded-lg font-bold text-white shadow-md hover:bg-indigo-700 transition duration-300">
+        <span class="ml-2">➕</span>
+        إضافة تحدي جديد
+    </a>
+
+    <a href="{{ route('admin.badges.index') }}" 
+       class="flex items-center justify-center px-6 py-3 bg-indigo-600 border border-transparent rounded-lg font-bold text-white shadow-md hover:bg-indigo-700 transition duration-300">
+        <span class="ml-2">🏅</span>
+        إضافة وسام جديد
+    </a>
+
+</div>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
@@ -57,15 +67,20 @@
                 <tr class="hover:bg-gray-50">
                     <td class="px-6 py-4 font-medium">{{ $challenge->title }}</td>
                     <td class="px-6 py-4 text-gray-600">{{ $challenge->total_days }} يوم</td>
-                    <td class="px-6 py-4">
-                       <form action="{{ route('admin.challenges.destroy', $challenge->id) }}" method="POST" class="inline" onsubmit="return confirm('هل أنت متأكد من حذف هذا التحدي؟')">
-    @csrf
-    @method('DELETE') {{-- هذا السطر ضروري جداً لإخبار لارافيل أنها عملية حذف --}}
-    <button type="submit" class="text-red-500 hover:text-red-700 font-bold">
-        حذف
-    </button>
-</form>
-                    </td>
+                    <td class="px-6 py-4 flex items-center justify-center space-x-3">
+    
+    <a href="{{ route('admin.challenges.edit', $challenge->id) }}" class="text-blue-600 hover:text-blue-900 font-bold ml-3">
+        تعديل
+    </a>
+
+    <form action="{{ route('admin.challenges.destroy', $challenge->id) }}" method="POST" onsubmit="return confirm('هل أنتِ متأكدة؟')">
+        @csrf
+        @method('DELETE')
+        <button type="submit" class="text-red-500 hover:text-red-700 font-bold">
+            حذف
+        </button>
+    </form>
+</td>
                 </tr>
                 @endforeach
             </tbody>
